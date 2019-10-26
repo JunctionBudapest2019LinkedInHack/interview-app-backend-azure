@@ -7,25 +7,21 @@ headers = {
             'Content-Type': 'application/json; charset:utf-8'
         }
 
-# getLinkedInDataUrl = 'https://junctionbudapest.azurewebsites.net/api/GetLinkedInDetails?code=UkMZMr9qcjxgvPgTF2bVViTfl8vdFqu5nRreUbjim0UwBR8x7df5HA=='
-getLinkedInDataUrl = 'http://localhost:7071/api/GetLinkedInDetails'
+getLinkedInDataUrl = 'https://junction-budapes-2019-tomaye.s3-eu-west-1.amazonaws.com/TomasYeMock.json'
 getKeywordsFromLinkedInDataUrl = 'https://junctionbudapest.azurewebsites.net/api/GetKeywordsFromLinkedInData?code=b/DEa4NacEHn0ZcUyDci3Kap1R6bVGTDFVNkdfEcepYPsb7jyxSDEQ=='
 
 
-def main(req: func.HttpRequest) -> func.HttpResponse:
+def main(req: func.HttpRequest) -> str:
     logging.info('Invoked Function for getting details ')
-    linkedInData = requests.get(getLinkedInDataUrl)
+    linkedInData = requests.get(getLinkedInDataUrl).json()
 
     print('LinkedInData = ')
-    data = linkedInData.json()
-    print(data)
-    print(type(data))
+    print(linkedInData)
 
 
-    keywords = requests.post(url=getKeywordsFromLinkedInDataUrl, json=data, headers=headers)
+    keywords = requests.post(url=getKeywordsFromLinkedInDataUrl, json=linkedInData, headers=headers).text
     print('Keywords = ')
     print(keywords)
+    print(type(keywords))
 
-
-
-    return keywords.text
+    return keywords
