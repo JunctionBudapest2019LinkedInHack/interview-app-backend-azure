@@ -9,6 +9,8 @@ headers = {
 
 getLinkedInDataUrl = 'https://junction-budapes-2019-tomaye.s3-eu-west-1.amazonaws.com/TomasYeMock.json'
 getKeywordsFromLinkedInDataUrl = 'https://junctionbudapest.azurewebsites.net/api/GetKeywordsFromLinkedInData?code=b/DEa4NacEHn0ZcUyDci3Kap1R6bVGTDFVNkdfEcepYPsb7jyxSDEQ=='
+# getDescriptionFromKeywordsUrl = 'https://junctionbudapest.azurewebsites.net/api/GetDescriptionFromKeywords?code=pM1Y/934iOd8ZjuGaBqtlUBDUoyDwYXjauVRI04k9d8/BZXr4kn3wg=='
+getDescriptionFromKeywordsUrl = 'http://localhost:7071/api/GetDescriptionFromKeywords'
 
 
 def main(req: func.HttpRequest) -> str:
@@ -18,10 +20,12 @@ def main(req: func.HttpRequest) -> str:
     print('LinkedInData = ')
     print(linkedInData)
 
-
-    keywords = requests.post(url=getKeywordsFromLinkedInDataUrl, json=linkedInData, headers=headers).text
+    keywords = requests.post(url=getKeywordsFromLinkedInDataUrl, json=linkedInData, headers=headers).json()
     print('Keywords = ')
     print(keywords)
-    print(type(keywords))
 
-    return keywords
+    description = requests.post(url=getDescriptionFromKeywordsUrl, json=keywords, headers=headers).text
+    print('Keywords = ')
+    print(description)
+
+    return description
