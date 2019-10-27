@@ -321,11 +321,11 @@ def bind(foo, dst, dst_k):
     pass
 
 def startYear(src):
-  years = sorted(list(map(int, re.findall(r"\d{4}", src))))
+  years = sorted(list(filter(lambda x: x > 1950, map(int, re.findall(r"\d{4}", src)))))
   return str(years[0])
 
 def endYear(src):
-  years = sorted(list(map(int, re.findall(r"\d{4}", src))))
+  years = sorted(list(filter(lambda x: x > 1950, map(int, re.findall(r"\d{4}", src)))))
   return str(years[-1])
 
 def yearSuffix(val):
@@ -337,18 +337,18 @@ def yearSuffix(val):
     return str(val) + " years"
 
 def yearsRange(src):
-  years = sorted(list(map(int, re.findall(r"\d{4}", src))))
+  years = sorted(list(filter(lambda x: x > 1950, map(int, re.findall(r"\d{4}", src)))))
   # print(years)
   val = years[-1] - years[0]
 
   return yearSuffix(val)
 
 def startYears(src):
-  year = sorted(list(map(int, re.findall(r"\d{4}", src))))[0]
+  year = sorted(list(filter(lambda x: x > 1950, map(int, re.findall(r"\d{4}", src)))))[0]
   return yearSuffix(datetime.datetime.now().year - year)
 
 def endYears(src):
-  year = sorted(list(map(int, re.findall(r"\d{4}", src))))[-1]
+  year = sorted(list(filter(lambda x: x > 1950, map(int, re.findall(r"\d{4}", src)))))[-1]
 
   val = year - datetime.datetime.now().year
   return yearSuffix(val)
@@ -390,11 +390,19 @@ def jobSkill(jobs, i, seq):
   return jobs[i]["keyPhrases"][-seq]
 
 def fuseKeys(src, dst, text):
+  general = src['general']
   jobs = src['jobs']
   skills = src['skills'][0]
+  # print(random.choice(skills)["name"])
   schools = src['schools']
+  # print(endYears(schools[0]["dateRange"]))
+  print(yearsRange(jobs[-1]["dateRange"]))
+  print(jobs[-1]["dateRange"])
 
+  # bind = lambda src_k, dst_k: tryFill(general, jobs, skills, schools, src_k, dst_k, dst)
 
+  # bind(general, "", dst, "")
+  # bind(general, "", dst, 'achievement_1')
   bind(lambda: getSubject(skills, 0), dst, 'achievement_1')
   bind(lambda: schools[-1]["degree"], dst, 'edu1_qualification')
   bind(lambda: schools[-1]["degreeSpec"], dst, 'edu1_subject')
@@ -461,13 +469,19 @@ def fuseKeys(src, dst, text):
   bind(lambda: jobs[0]["companyName"], dst, 'work_place_c')
   bind(lambda: getSubject(skills), dst, 'work_subject_1')
   bind(lambda: startYear(jobs[-1]["dateRange"]), dst, 'work_year_1')
+  bind(lambda: yearsRange(jobs[-1]["dateRange"]), dst, 'work_years_1')
   bind(lambda: startYears(jobs[0]["dateRange"]), dst, 'work_years_c')
 
+  # print(schools)
 
 def chooseTemplate(context):
-  templates = ["education1.txt", "education2.txt", "blended1.txt", "carreer1.txt", "carreer2.txt"]
-  return random.choice(templates)
+  templates = []
+  if ("work_place_1" in context) or ("work_place_c" in context):
+    templates = ["blended1.txt", "carreer1.txt", "carreer2.txt"]
+  else:
+    templates = ["education1.txt", "education2.txt"]
 
+  return random.choice(templates)
 
 def magicFoo(json_context):
   src = json.loads(json_context)
