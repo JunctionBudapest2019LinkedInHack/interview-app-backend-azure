@@ -20,6 +20,8 @@ We cal it the "Job Bot"
  These are then used to create a cohesive, human sounding personal pitch (a.k.a the ultimate answer to the "Tell me about yourself question"), all within seconds.
  
 
+# How does it work?
+![](https://junctionbudapest2.blob.core.windows.net/junction-junkies-2019-tomaye/TechDiagram.png)
  
  
  # List of APIs
