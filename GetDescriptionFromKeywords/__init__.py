@@ -7,8 +7,6 @@ import azure.functions as func
 import requests
 
 
-FILE_HOSTING_PLATFORM_URL = 'https://junctionbudapest2.blob.core.windows.net/junction-junkies-2019-tomaye/'
-
 headers = {
             'Content-Type': 'application/json; charset:utf-8'
         }
@@ -120,6 +118,7 @@ def splitAt(items, delimiter):
   return result
 
 def buildDocumentTemplate(fname):
+  FILE_HOSTING_PLATFORM_URL = 'https://junctionbudapest2.blob.core.windows.net/junction-junkies-2019-tomaye/'
   lines = []
 
   response = requests.get(FILE_HOSTING_PLATFORM_URL + fname)

@@ -12,7 +12,7 @@ headers = {
 
 account_name = 'junctionbudapest2'
 account_key = '1TUratXtvByc86ruuQ8ptxw51GUwnF1DpSZP4oMipSbONChihpLGPpCbar6y1SWANds5Ch+AUVLKrsyxpj3xKg=='
-container_name = 'junction-2019-audio-descriptions'
+audio_container_name = 'junction-2019-audio-descriptions'
 block_blob_service = BlockBlobService(account_name=account_name, account_key=account_key)
 
 
@@ -24,8 +24,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     soundFile = getSoundFromText(description)
 
     fileName = 'job_transcript_' + str(uuid.uuid4()) + '.wav'
-    block_blob_service.create_blob_from_bytes(container_name, fileName, soundFile)
-    soundFileURL = 'https://junctionbudapest2.blob.core.windows.net/' + container_name + '/' + fileName
+    block_blob_service.create_blob_from_bytes(audio_container_name, fileName, soundFile)
+    soundFileURL = 'https://junctionbudapest2.blob.core.windows.net/' + audio_container_name + '/' + fileName
 
     result = json.dumps({
         'soundFile': soundFileURL,
@@ -35,6 +35,12 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     return func.HttpResponse(result, mimetype='application/json', headers=headers)
 
 
+
+def generateAndStoreSoundFromTextAndReturnUrl(description) -> str:
+    soundFile = getSoundFromText(description)
+    fileName = 'job_transcript_' + str(uuid.uuid4()) + '.wav'
+    block_blob_service.create_blob_from_bytes(audio_container_name, fileName, soundFile)
+    return 'https://junctionbudapest2.blob.core.windows.net/' + audio_container_name + '/' + fileName
 
 
 def getSoundFromText(text):
