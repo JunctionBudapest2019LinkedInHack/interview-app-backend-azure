@@ -12,6 +12,7 @@ headers = {
 
 account_name = 'junctionbudapest2'
 account_key = '1TUratXtvByc86ruuQ8ptxw51GUwnF1DpSZP4oMipSbONChihpLGPpCbar6y1SWANds5Ch+AUVLKrsyxpj3xKg=='
+container_name = 'junction-2019-audio-descriptions'
 block_blob_service = BlockBlobService(account_name=account_name, account_key=account_key)
 
 
@@ -22,9 +23,13 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info(description)
     soundFile = getSoundFromText(description)
 
+    fileName = 'job_transcript_' + str(uuid.uuid4()) + '.wav'
+    block_blob_service.create_blob_from_bytes(container_name, fileName, soundFile)
+    soundFileURL = 'https://junctionbudapest2.blob.core.windows.net/' + container_name + '/' + fileName
+
     result = json.dumps({
-        'soundFile': 'https://junction-budapes-2019-tomaye.s3-eu-west-1.amazonaws.com/SampleOutput.wav',
-        'textDescription': 'In todays world, we have abundant amounts of data. However, extracting the relevant information from this data, visualising it, interpreting it and, most importantly, making good decisions based on it, is not always as straightforward as one would hope. This is where people like me come into play.'
+        'soundFile': soundFileURL,
+        'textDescription': description
     })
 
     return func.HttpResponse(result, mimetype='application/json', headers=headers)

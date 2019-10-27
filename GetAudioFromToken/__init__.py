@@ -1,7 +1,6 @@
 import logging
 import azure.functions as func
 import requests
-import json
 
 headers = {
             'Content-Type': 'application/json; charset:utf-8'
