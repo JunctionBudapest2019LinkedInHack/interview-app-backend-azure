@@ -1,7 +1,9 @@
 import logging
 import azure.functions as func
 import requests
-import json
+from azure.storage.blob import BlockBlobService
+import uuid
+
 
 headers = {
             'Content-Type': 'application/json; charset:utf-8'
@@ -11,6 +13,11 @@ getLinkedInDataUrl = 'https://junction-budapes-2019-tomaye.s3-eu-west-1.amazonaw
 getKeywordsFromLinkedInDataUrl = 'https://junctionbudapestfunctions3.azurewebsites.net/api/GetKeywordsFromLinkedInData?code=5x4MajA7or6MQBBQoxC6DEynOgamz8Ly2OcU61lki4NIYkbWauiIBg=='
 getDescriptionFromKeywordsUrl = 'https://junctionbudapestfunctions3.azurewebsites.net/api/GetDescriptionFromKeywords?code=qDVJ3YaQdNbX5uFowK8UzbVEQ9CKD8P5p6/PvKem6UESbmcVO5fI8g=='
 getAudioFromDescription = 'https://junctionbudapestfunctions3.azurewebsites.net/api/getAudioFromTextDescription?code=VNcJQoBUctRslPphXZZ9QEOoPjMT4bS8DdD2aZH2QEMTRXgi5NCkCQ=='
+
+accountName = 'junctionbudapest2'
+accessKey = '1TUratXtvByc86ruuQ8ptxw51GUwnF1DpSZP4oMipSbONChihpLGPpCbar6y1SWANds5Ch+AUVLKrsyxpj3xKg=='
+blobService = BlockBlobService(account_name=accountName, account_key=accessKey)
+containerName = 'junction-budapest-input-outpu'
 
 
 def main(req: func.HttpRequest) -> str:

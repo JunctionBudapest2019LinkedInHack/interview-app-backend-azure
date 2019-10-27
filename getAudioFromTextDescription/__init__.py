@@ -3,7 +3,7 @@ import requests
 import time, uuid
 from xml.etree import ElementTree
 import azure.functions as func
-from azure.storage.blob import BlockBlobService, PublicAccess
+from azure.storage.blob import BlockBlobService
 import json
 
 headers = {
