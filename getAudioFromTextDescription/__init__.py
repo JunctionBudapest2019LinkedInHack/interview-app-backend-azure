@@ -1,22 +1,26 @@
 import logging
 import requests
-import time
+import time, uuid
 from xml.etree import ElementTree
 import azure.functions as func
+from azure.storage.blob import BlockBlobService, PublicAccess
 import json
 
 headers = {
             'Content-Type': 'application/json; charset:utf-8',
-            # 'Content-Disposition': 'attachment; filename="speech.wav"'
         }
+
+account_name = 'junctionbudapest2'
+account_key = '1TUratXtvByc86ruuQ8ptxw51GUwnF1DpSZP4oMipSbONChihpLGPpCbar6y1SWANds5Ch+AUVLKrsyxpj3xKg=='
+block_blob_service = BlockBlobService(account_name=account_name, account_key=account_key)
 
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Invoked function to transcribe text to file')
-    description = req.params.get('description')
+    description = req.get_json()['description']
     logging.info("Description = ")
     logging.info(description)
-    # soundFile = getSoundFromText(description)
+    soundFile = getSoundFromText(description)
 
     result = json.dumps({
         'soundFile': 'https://junction-budapes-2019-tomaye.s3-eu-west-1.amazonaws.com/SampleOutput.wav',
