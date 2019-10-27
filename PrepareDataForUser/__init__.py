@@ -491,7 +491,7 @@ def magicFoo(json_context):
   doc = buildDocumentTemplate(chooseTemplate(context))
 
   cl = Client(doc, context)
-  return cl.get().replace("’", "'")
+  return cl.get().replace("’", "")
 
 
 
