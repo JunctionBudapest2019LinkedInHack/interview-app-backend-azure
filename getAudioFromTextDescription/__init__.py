@@ -16,7 +16,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     description = req.params.get('description')
     logging.info("Description = ")
     logging.info(description)
-    soundFile = getSoundFromText(description)
+    # soundFile = getSoundFromText(description)
 
     result = json.dumps({
         'soundFile': 'https://junction-budapes-2019-tomaye.s3-eu-west-1.amazonaws.com/SampleOutput.wav',
