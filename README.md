@@ -8,7 +8,7 @@ You know the interviews are tough and you prepare thoroughly for the infamous "C
 "The nontechnical part is also important."
 
 Hence, we are providing you with a tool that will bring your softer part up to par with your technical prowes.
-We cal it the "Job Bot"
+We cal it the "Pitch Bot"
 
 
 ![](https://junctionbudapest2.blob.core.windows.net/junction-junkies-2019-tomaye/Imagine.png)
@@ -35,7 +35,7 @@ We cal it the "Job Bot"
  
  ### 3) Front end client
  
- URL = https://englishjobbot-webapp.azurewebsites.net/index.html
+ URL = https://pitchbot-ai.azurewebsites.net/#/home
  
  
     
